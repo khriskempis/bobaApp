@@ -1,5 +1,6 @@
 
 const GOOGLE_LOCATION_API_ENDPOINT = 'https://maps.googleapis.com/maps/api/geocode/json'
+const GOOGLE_NEARBY_SEARCH_ENDPOINT = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 
 
 
@@ -23,10 +24,38 @@ function initMap(lat, lng){
 	})
 }
 
-function findSurroundingVenues(lat, lng){
-	let query ={
-		
+function findSurroundingVenues(lat, lng, callback){
+	let query = {
+		key: 'AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0',
+		query: 'milk tea',
+		location: `${parseFloat(lat)},${parseFloat(lng)}`,
+		radius: 50
 	}
+	$.getJSON(GOOGLE_NEARBY_SEARCH_ENDPOINT, query, callback)
+};
+
+function createResultObject(item){
+	let htmlString = `<h3>${item.name}</h3>
+			<p>Rating: ${item.rating}</p>
+			<p>Address: ${item.formatted_address}</p>
+			<!-- <p>Place_Id: ${item.place_id}</p> -->`
+
+	let resultObject = {
+		name: item.name,
+		rating: item.rating,
+		address: item.formatted_address,
+		place_id: item.place_id
+		lat: item.geometry.location.lat,
+		lng: item.geometry.location.lng
+	}
+	return resultObject
+};
+
+function generateSearchResults(data){
+	const results = data.results.map(item =>{
+		return createResultObject(item);
+	})	
+	$('.search-results').html(results);
 };
 
 function generateMap(data){
@@ -35,27 +64,18 @@ function generateMap(data){
 	let lat = data.results[0].geometry.location.lat;
 	let lng = data.results[0].geometry.location.lng;
 
-	const htmlString = `<hr>
-			<div role="contentinfo" class="search-item">
-				<h3>${city}</h2>
-				<p>${lat}</p>
-				<p>${lng}</p>
-			</div>
-			<hr>`
-
 	initMap(lat, lng)
 
-	findSurroundingVenues(lat, lng)
+	findSurroundingVenues(lat, lng, generateSearchResults); 
 
-
-	renderSearchResults(htmlString);
+	// renderSearchResults(htmlString);
 };
 
 
-function renderSearchResults(html){
-	const containerDiv = $('.search-results');
-	containerDiv.html(html)
-};
+// function renderSearchResults(html){
+// 	const containerDiv = $('.search-results');
+// 	containerDiv.html(html)
+// };
 
 
 
