@@ -1,17 +1,27 @@
 
-const GOOGLE_API_ENDPOINT = 'https://maps.googleapis.com/maps/api/geocode/json'
+const GOOGLE_LOCATION_API_ENDPOINT = 'https://maps.googleapis.com/maps/api/geocode/json'
 
 
 
-function getDataFromAPI(searchItem, callback ){
+function getCityFromAPI(searchItem, callback ){
 	const query = {
 		address: `${searchItem}`,
 		key: 'AIzaSyBpNVqQL4UDljoJpcyU_DuF3nh3avd9ecY'
 	}
-	$.getJSON(GOOGLE_API_ENDPOINT, query, callback)
+	$.getJSON(GOOGLE_LOCATION_API_ENDPOINT, query, callback)
 }
 
-
+function initMap(lat, long){
+	let map = new google.maps.Map(document.getElementById('display-map'), {
+		center: {
+			lat: parseFloat(lat),
+			lng: parseFloat(long)
+			// lat: -34.397,
+			// lng: 150.644
+		},
+		zoom: 13
+	})
+}
 
 function generateMap(data){
 
@@ -26,6 +36,10 @@ function generateMap(data){
 				<p>${long}</p>
 			</div>
 			<hr>`
+
+	initMap(lat, long)
+
+
 
 	renderSearchResults(htmlString);
 };
@@ -54,10 +68,11 @@ function handleSubmit(){
 		const citySearch = queryTarget.val(); 
 		const submitButton = $('.submit-button')
 
-		getDataFromAPI(citySearch, generateMap); 
+		getCityFromAPI(citySearch, generateMap); 
 
 		queryTarget.val(''); 
 	});
 }
+
 
 $(handleSubmit())
