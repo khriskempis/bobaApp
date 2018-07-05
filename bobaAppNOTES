@@ -1,0 +1,32 @@
+// USER STORIES 
+
+user sees a map in the background with a search field in the center asking for a city. 
+there is a button below the search bar that says "Get ME Boba!"
+
+after inputting a city and clicking the button, the map becomes focused and little dots show up indicating ONLY milk tea or tea shops around. If those can't be found Starbucks and Coffee bean will show up instead.
+
+When selecting a specific dot indicating a venue to search. a tooltip will show minimal data including the venue name rating store hours and distance away from where the user is. 
+
+There is also a small button for more info and when selected, more information will appear on the left hand side which includes the address store hours rating directions, along with an over view of the menu along with popular milk tea drinks. will also show if the place serves food or not and either has a place to sit and relax or is too small to accomodate alot of people. 
+
+
+
+
+// BobaGuru keys 
+
+// ForSquare keys
+
+const CLIENT_ID = JVFYWB5FFQWRR2JMOUJN5ECTUW0BOHOKSCBRYXI3URTQR4JX
+
+const CLIENT_SECRET = YC3E1UISHZI5SR5KTCSCPVEHCCK1Q5WMD0J3XI5CAHTEHTW1
+
+// Google Maps keys
+
+const GOOGLE_MAPS_KEY = 
+
+AIzaSyBpNVqQL4UDljoJpcyU_DuF3nh3avd9ecY
+
+
+const GOOGLE_PLACES_KEY = 
+
+AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0
