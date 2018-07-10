@@ -3,32 +3,19 @@ const GOOGLE_LOCATION_API_ENDPOINT = 'https://maps.googleapis.com/maps/api/geoco
 const GOOGLE_NEARBY_SEARCH_ENDPOINT = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 
 
-function populateMapWithMarkers(map, array){
-	// let marker = new google.maps.Marker({
-	// 	position: {lat: 34.063467, lng: -118.2971266},
-	// 	title: "Hello"
-	// })
+function populateMapWithMarkers(map){
 
-	// marker.setMap(map); 
-
-		// 	let marker = new google.maps.Marker({
-		// 	position: {lat: `${item.lat}`, lng: `${item.lng}`},
-		// 	title: item.name
-		// });
-		// console.log(SESSION_ARRAY)
-	// 	const markers = array.map(item => {
-	// 		let marker = new google.maps.Marker({
-	// 		position: {lat: `${item.lat}`, lng: `${item.lng}`},
-	// 		title: item.name
-	// 	});
-	// 		return marker
-	// })
-
-	// console.log(markers)
-
-	// for(let i = 0; i < markers.length; i++){
-	// 	markers[i].setMap(map);
-	// }
+		const markers = SESSION_ARRAY.map(item => {
+			let marker = new google.maps.Marker({
+			position: new google.maps.LatLng(item.lat, item.lng),
+			// position: {lat: `${parseFloat(item.lat)}`, lng: `${parseFloat(item.lng)}`},
+			title: item.name
+		});
+			return marker
+		})
+		for(let i = 0; i < markers.length; i++){
+			markers[i].setMap(map);
+		}
 };
 
 function initMap(lat, lng){
@@ -99,7 +86,11 @@ function generateMap(data){
 	
 	let map = initMap(lat, lng);
 
-	populateMapWithMarkers(map, SESSION_ARRAY)
+	setTimeout(()=>{
+		populateMapWithMarkers(map)
+	}, 500);
+
+	// populateMapWithMarkers(map)
 
 	// renderSearchResults(htmlString);
 };
