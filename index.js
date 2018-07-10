@@ -5,17 +5,21 @@ const GOOGLE_NEARBY_SEARCH_ENDPOINT = 'https://maps.googleapis.com/maps/api/plac
 
 function populateMapWithMarkers(map){
 
-		const markers = SESSION_ARRAY.map(item => {
+	const markers = SESSION_ARRAY.map((item, i) => {
+		window.setTimeout(() => {
 			let marker = new google.maps.Marker({
-			position: new google.maps.LatLng(item.lat, item.lng),
-			// position: {lat: `${parseFloat(item.lat)}`, lng: `${parseFloat(item.lng)}`},
-			title: item.name
-		});
-			return marker
-		})
-		for(let i = 0; i < markers.length; i++){
-			markers[i].setMap(map);
-		}
+				position: new google.maps.LatLng(item.lat, item.lng),
+				map: map,
+				title: item.name,
+				animation: google.maps.Animation.DROP
+			});
+		return marker
+		}, i * 100);
+	});
+
+	// for(let i = 0; i < markers.length; i++){
+	// 	markers[i].setMap(map)
+	// }
 };
 
 function initMap(lat, lng){
@@ -23,10 +27,8 @@ function initMap(lat, lng){
 		center: {
 			lat: parseFloat(lat),
 			lng: parseFloat(lng)
-			// lat: -34.397,
-			// lng: 150.644
 		},
-		zoom: 13
+		zoom: 12
 	})
 	return map
 }
@@ -36,7 +38,7 @@ function findSurroundingVenues(lat, lng, callback){
 		key: 'AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0',
 		query: 'milk tea',
 		location: `${lat},${lng}`,
-		radius: 50
+		radius: 10
 	}
 	$.getJSON(GOOGLE_NEARBY_SEARCH_ENDPOINT, query, callback)
 };
@@ -88,18 +90,9 @@ function generateMap(data){
 
 	setTimeout(()=>{
 		populateMapWithMarkers(map)
-	}, 500);
-
-	// populateMapWithMarkers(map)
-
-	// renderSearchResults(htmlString);
+	}, 800);
 };
 
-
-// function renderSearchResults(html){
-// 	const containerDiv = $('.search-results');
-// 	containerDiv.html(html)
-// };
 
 function getCityFromAPI(searchItem, callback ){
 	const query = {
