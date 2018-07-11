@@ -1,1 +1,1 @@
-const SESSION_ARRAY = []
+let SESSION_ARRAY = []
