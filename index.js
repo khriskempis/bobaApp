@@ -3,6 +3,23 @@ const GOOGLE_LOCATION_API_ENDPOINT = 'https://maps.googleapis.com/maps/api/geoco
 const GOOGLE_NEARBY_SEARCH_ENDPOINT = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
 
 
+
+
+
+function createInfoWindow(item){
+let contentHtml = `<div id="infowindow-content">
+      <img id="place-icon" src="${item.icon}" height="16" width="16">
+      <span id="place-name"  class="title">${item.name}</span><br>
+      ${item.openNow ? 'Open' : 'Closed'}<br>
+      <span id="place-address">${item.address}</span>
+    </div>`
+
+	let infoWindow = new google.maps.InfoWindow({
+		content: contentHtml
+	});
+	return infoWindow
+};
+
 function populateMapWithMarkers(map){
 
 	const markers = SESSION_ARRAY.map((item, i) => {
@@ -13,13 +30,25 @@ function populateMapWithMarkers(map){
 				title: item.name,
 				animation: google.maps.Animation.DROP
 			});
-		return marker
+
+			let infoWindow = createInfoWindow(item);
+
+			marker.addListener('mouseover', function(){
+				infoWindow.open(map, marker)
+			})
+			marker.addListener('mouseout', function(){
+				infoWindow.close(); 
+			})
+			marker.addListener('click', function(){
+				infoWindow.open(map, marker)
+		});
+
+		return marker 
+
 		}, i * 100);
+
 	});
 
-	// for(let i = 0; i < markers.length; i++){
-	// 	markers[i].setMap(map)
-	// }
 };
 
 function initMap(lat, lng){
@@ -30,6 +59,7 @@ function initMap(lat, lng){
 		},
 		zoom: 12
 	})
+
 	return map
 }
 
@@ -43,13 +73,20 @@ function findSurroundingVenues(lat, lng, callback){
 	$.getJSON(GOOGLE_NEARBY_SEARCH_ENDPOINT, query, callback)
 };
 
+function createSimpleAddress(formatted_address){
+	let simpleAddress = formatted_address.split(',')
+	return simpleAddress[0]
+}
+
 function createResultObject(item){
 
 	let resultObject = {
 		name: item.name,
 		rating: item.rating,
-		address: item.formatted_address,
+		address: createSimpleAddress(item.formatted_address),
 		place_id: item.place_id,
+		icon: item.icon,
+		openNow: item.opening_hours.open_now,
 		lat: item.geometry.location.lat,
 		lng: item.geometry.location.lng
 	}
@@ -67,13 +104,14 @@ function generateResultsHtml(array){
 }
 
 function generateSearchResults(data){
+		SESSION_ARRAY = []
 		const results = data.results.map(item =>{
 		return createResultObject(item);
 	})	
-		for(i = 0; i < results.length; i++){
-			SESSION_ARRAY.unshift(results[i])
+		for(i = 0; i < 10; i++){
+			SESSION_ARRAY.push(results[i])
 		}
-	let resultsHtml = generateResultsHtml(results)
+	let resultsHtml = generateResultsHtml(SESSION_ARRAY)
 	$('.search-results').html(resultsHtml);
 };
 
