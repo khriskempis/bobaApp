@@ -41,13 +41,38 @@ function populateMapWithMarkers(map){
 			})
 			marker.addListener('click', function(){
 				infoWindow.open(map, marker)
+				let name = marker.title
+				let venueObject= SESSION_ARRAY.find(object => object.name === name)
+				getVenueDetails(venueObject.place_id); 
 		});
 
 		return marker 
 
 		}, i * 100);
-
 	});
+};
+
+function renderResultFocus(data){
+	let venueFocus = $('.js-venue-focus')
+	let htmlString = `<h2>${data.result.name}</h2>
+				<p>
+					<span>${data.result.formatted_address}</span><br>
+					<span>${data.result.formatted_phone_number}</span>
+					<p>${data.result.reviews[0].text}</p>
+				</p>
+				<p>description</p>
+	`
+	$(venueFocus).html(htmlString)
+};
+
+function getVenueDetails(place_id){
+	const GOOGLE_PLACE_DETAILS_ENDPOINT = 'https://maps.googleapis.com/maps/api/place/details/json'
+	let query = {
+		key: 'AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0',
+		place_id: `${place_id}`,
+		fields: 'name,formatted_address,icon,url,photo,website,formatted_phone_number,review'
+	}
+	$.getJSON(GOOGLE_PLACE_DETAILS_ENDPOINT, query, renderResultFocus)
 
 };
 
@@ -73,10 +98,28 @@ function findSurroundingVenues(lat, lng, callback){
 	$.getJSON(GOOGLE_NEARBY_SEARCH_ENDPOINT, query, callback)
 };
 
+// function renderImageSrc(data){
+// 	let imgElement = $('.js-img-focus')
+// 	console.log('made it')
+// }
+
+// function getphoto(photo_reference){
+// 	const GOOGLE_PHOTO_REFERENCE = 'https://maps.googleapis.com/maps/api/place/photo'
+// 	let query = {
+// 		key: 'AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0',
+// 		photo_reference: `${photo_reference}`,
+// 		maxwidth: 400
+// 	}
+
+// 	$.getJSON(GOOGLE_PHOTO_REFERENCE, query, renderImageSrc)
+
+	
+// };
+
 function createSimpleAddress(formatted_address){
 	let simpleAddress = formatted_address.split(',')
 	return simpleAddress[0]
-}
+};
 
 function createResultObject(item){
 
@@ -87,6 +130,7 @@ function createResultObject(item){
 		place_id: item.place_id,
 		icon: item.icon,
 		openNow: item.opening_hours.open_now,
+		// photo: getphoto(item.photos[0].photo_reference),
 		lat: item.geometry.location.lat,
 		lng: item.geometry.location.lng
 	}
@@ -95,10 +139,12 @@ function createResultObject(item){
 
 function generateResultsHtml(array){
 	let resultsHtml = array.map(item => {
-		return htmlString = `<h3>${item.name}</h3>
-			<p>Rating: ${item.rating}</p>
-			<p>Address: ${item.address}</p>
-			<!-- <p>Place_Id: ${item.place_id}</p> -->`
+		return htmlString = `<div class="venue-card col-3">
+					<h3><img id="place-icon" src="${item.icon}" height="16" width="16"> ${item.name}</h3>
+					<p>Rating: ${item.rating}</p>
+					<p>${item.address}</p>
+					<p>${item.openNow ? 'Open' : 'Closed'}</p>
+				</div>`
 	});
 	return resultsHtml;
 }
@@ -108,7 +154,7 @@ function generateSearchResults(data){
 		const results = data.results.map(item =>{
 		return createResultObject(item);
 	})	
-		for(i = 0; i < 10; i++){
+		for(i = 0; i < 12; i++){
 			SESSION_ARRAY.push(results[i])
 		}
 	let resultsHtml = generateResultsHtml(SESSION_ARRAY)
@@ -154,6 +200,8 @@ function handleSubmit(){
 		const submitButton = $('.submit-button')
 
 		getCityFromAPI(citySearch, generateMap); 
+
+		$('.js-search-header').html(`Search Results for ${citySearch}`)
 
 		queryTarget.val(''); 
 	});

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<title>Boba App</title>
+	<link rel="stylesheet" type="text/css" href="float-grid.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -10,20 +11,59 @@
 	<h1>Boba App</h1>
 
 <main>
-	<form class="js-search-form">
-		<label for="location-search">Enter A City</label>
-		<input type="text" name="search" id="location-search">
-		<button type="submit" class="js-submit-button">Get Me Boba!</button>
-	</form>
+	<div class="form">
+		<form class="js-search-form search-form above-map">
+			<label for="location-search">Enter A City</label>
+			<input type="text" name="search" id="location-search">
+			<button type="submit" class="js-submit-button">Get Me Boba!</button>
+		</form>
+	</div>
 
 	<section>
+		<div class="container">
+			<div id="display-map">
+			</div>
+			<div class="venue-focus col-5 js-venue-focus">
 
-		<div id="display-map">
-			
+				<h2>Boba Focus</h2>
+				<p>
+					<span>price level</span>
+					<span>Rating</span>
+				</p>
+				<p>description</p>
+
+			</div>
 		</div>
 
-		<h2>Search Results</h2>
+		<h2 class="js-search-header"></h2>
 		<div class="search-results">
+
+			<div class="container" id="containerOne">
+				<div class="venue-card col-3">
+					<h3>Boba Place</h3>
+					<p>Rating: 4.5</p>
+					<p>Address: 701 S Western Ave</p>
+				</div>
+				<div class="venue-card col-3">
+					<h3>Boba Place</h3>
+					<p>Rating: 4.5</p>
+					<p>Address: 701 S Western Ave</p>
+				</div>
+				<div class="venue-card col-3">
+					<h3>Boba Place</h3>
+					<p>Rating: 4.5</p>
+					<p>Address: 701 S Western Ave</p>
+				</div>
+				<div class="venue-card col-3">
+					<h3>Boba Place</h3>
+					<p>Rating: 4.5</p>
+					<p>Address: 701 S Western Ave</p>
+				</div>
+			</div>
+
+			<div class="container" id="containerTwo">
+
+			</div>
 			
 		</div>
 
