@@ -44,6 +44,8 @@ function populateMapWithMarkers(map){
 				let name = marker.title
 				let venueObject= SESSION_ARRAY.find(object => object.name === name)
 				getVenueDetails(venueObject.place_id); 
+
+
 		});
 
 		return marker 
@@ -58,9 +60,10 @@ function renderResultFocus(data){
 				<p>
 					<span>${data.result.formatted_address}</span><br>
 					<span>${data.result.formatted_phone_number}</span>
+					<p>Reviews</p>
 					<p>${data.result.reviews[0].text}</p>
+					<p>Visit us at <a href="${data.result.website}" target="_blank">${data.result.name}</a></p>
 				</p>
-				<p>description</p>
 	`
 	$(venueFocus).html(htmlString)
 };
@@ -154,7 +157,7 @@ function generateSearchResults(data){
 		const results = data.results.map(item =>{
 		return createResultObject(item);
 	})	
-		for(i = 0; i < 12; i++){
+		for(i = 0; i < 8; i++){
 			SESSION_ARRAY.push(results[i])
 		}
 	let resultsHtml = generateResultsHtml(SESSION_ARRAY)
@@ -201,7 +204,13 @@ function handleSubmit(){
 
 		getCityFromAPI(citySearch, generateMap); 
 
-		$('.js-search-header').html(`Search Results for ${citySearch}`)
+		let searchResultsDisplay = $('.js-search-header')
+
+		searchResultsDisplay.html(`Search Results for ${citySearch}`)
+
+		searchForm.removeClass('center-map').addClass('above-map')
+
+
 
 		queryTarget.val(''); 
 	});
