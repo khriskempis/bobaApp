@@ -1,3 +1,5 @@
+Help users find Boba in the city they search using google maps api and google places api
+
 // USER STORIES 
 
 user sees a map in the background with a search field in the center asking for a city. 
@@ -32,7 +34,7 @@ const GOOGLE_PLACES_KEY =
 AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0
 
 LOS ANGELES latLng =
-34.03508,-118.3695769
+34.0522342 -118.2436849
 
 
 // HTML

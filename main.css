@@ -14,12 +14,20 @@ nav {
 
 nav h1 {
 	margin: 0;
+	display: inline;
 }
 
+a {
+	text-decoration: none;
+}
+
+/* === SEARCH FORM === */
 .search-form {
+	display: inline;
 	text-align: center;
-	width: 300px;
+	width: 500px;
 	position: relative;
+	margin: 0;
 }
 
 .above-map {
@@ -32,13 +40,23 @@ nav h1 {
 	z-index: 1; 
 }
 
+.nav-search {
+	right: -300px;
+	top: -50px;
+}
+
 .search-form label {
 	font-size: 20px;
 }
 
 input {
+/*	border-bottom: 4px solid #cdd5e0;
+*/	font-size: 20px;
 	margin: 0 auto;
-	display: block;
+	display: inline-block;
+	height: 30px;
+	width: 250px; 
+	background-color: #f5eee6 !important;
 }
 
 
@@ -47,9 +65,14 @@ input {
 	width: 60%;
 }
 
-/*h3, p {
-	margin: 5px;
-}*/
+h3, p {
+	margin: 2px;
+	padding: 4px;
+}
+
+
+
+/* === VENUE INFO === */
 
 .venue-card, 
 .venue-focus {
@@ -62,7 +85,31 @@ input {
 	background-color: #f5eee6;
 }
 
+
+
 .venue-focus {
 	height: 400px;
 	background-color: #99e1e5;
+}
+
+.venue-focus {
+
+}
+
+h5 {
+	margin: 4px 0 1px;
+}
+
+.phone-number,
+.review-description {
+	font-size: 12px;
+	padding: 10px 5px;
+}
+
+.food {
+	color: green;
+}
+
+.no-food {
+	color: purple;
 }

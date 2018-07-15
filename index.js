@@ -10,7 +10,7 @@ function createInfoWindow(item){
 let contentHtml = `<div id="infowindow-content">
       <img id="place-icon" src="${item.icon}" height="16" width="16">
       <span id="place-name"  class="title">${item.name}</span><br>
-      ${item.openNow ? 'Open' : 'Closed'}<br>
+      ${item.openNow ? 'Open Now' : 'Closed'}<br>
       <span id="place-address">${item.address}</span>
     </div>`
 
@@ -54,15 +54,33 @@ function populateMapWithMarkers(map){
 	});
 };
 
+function createAddress(formatted_address){
+	let addressArray = formatted_address.split(',')
+	let newAddress = `<span>${addressArray[0]} ${addressArray[1]}</span><br>
+										<span> ${addressArray[2]} ${addressArray[3]}</span`
+	return newAddress
+}
+
+function generateShortReview(text){
+	let textArray = text.split(' ')
+	let shortReview = [];
+	for(i=0; i < 25; i++){
+		textArray
+	}
+}
+
 function renderResultFocus(data){
 	let venueFocus = $('.js-venue-focus')
-	let htmlString = `<h2>${data.result.name}</h2>
+	let htmlString = `<h2><a href="${data.result.website}" target="_blank">${data.result.name}</a></h2>
 				<p>
-					<span>${data.result.formatted_address}</span><br>
-					<span>${data.result.formatted_phone_number}</span>
-					<p>Reviews</p>
-					<p>${data.result.reviews[0].text}</p>
-					<p>Visit us at <a href="${data.result.website}" target="_blank">${data.result.name}</a></p>
+					<span class="address">${createAddress(data.result.formatted_address)}</span><br>
+					<span class="rating">${data.result.rating}</span>
+					<span class="phone-number">${data.result.formatted_phone_number}</span><br>
+					<span class="food-service">${(data.result.types).find(item => item === "restaurant") ? '<span class="food">Serves Food</span>' : '<span class="no-food">Doesn\'t Serve Food</span>'}</span><br>
+					<h5>Reviews</h5>
+					<p class="review-description">${generateShortReview(data.result.reviews[0].text)}</p>
+					<p class="review-description">${data.result.reviews[1].text}</p>
+					
 				</p>
 	`
 	$(venueFocus).html(htmlString)
@@ -73,13 +91,25 @@ function getVenueDetails(place_id){
 	let query = {
 		key: 'AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0',
 		place_id: `${place_id}`,
-		fields: 'name,formatted_address,icon,url,photo,website,formatted_phone_number,review'
+		fields: 'name,formatted_address,type,icon,url,photo,website,formatted_phone_number,rating,review'
 	}
-	$.getJSON(GOOGLE_PLACE_DETAILS_ENDPOINT, query, renderResultFocus)
+	$.getJSON(GOOGLE_PLACE_DETAILS_ENDPOINT, query, renderResultFocus).fail(()=> console.log('Try Again'))
 
 };
 
-function initMap(lat, lng){
+function initMap(){
+	let map = new google.maps.Map(document.getElementById('display-map'), {
+		center: {
+			lat: 34.0522342,
+			lng: -118.2436849
+			},
+		zoom: 12
+	})
+
+	return map
+}
+
+function initMapAfterCall(lat, lng){
 	let map = new google.maps.Map(document.getElementById('display-map'), {
 		center: {
 			lat: parseFloat(lat),
@@ -99,6 +129,9 @@ function findSurroundingVenues(lat, lng, callback){
 		radius: 10
 	}
 	$.getJSON(GOOGLE_NEARBY_SEARCH_ENDPOINT, query, callback)
+		.fail(function(error){
+			console.log(error)
+		})
 };
 
 // function renderImageSrc(data){
@@ -132,7 +165,7 @@ function createResultObject(item){
 		address: createSimpleAddress(item.formatted_address),
 		place_id: item.place_id,
 		icon: item.icon,
-		openNow: item.opening_hours.open_now,
+		openNow: item.opening_hours.open_now ? item.opening_hours.open_now : true,
 		// photo: getphoto(item.photos[0].photo_reference),
 		lat: item.geometry.location.lat,
 		lng: item.geometry.location.lng
@@ -146,7 +179,7 @@ function generateResultsHtml(array){
 					<h3><img id="place-icon" src="${item.icon}" height="16" width="16"> ${item.name}</h3>
 					<p>Rating: ${item.rating}</p>
 					<p>${item.address}</p>
-					<p>${item.openNow ? 'Open' : 'Closed'}</p>
+					<p>${item.openNow ? 'Open Now' : 'Closed'}</p>
 				</div>`
 	});
 	return resultsHtml;
@@ -170,10 +203,10 @@ function generateMap(data){
 	let city = data.results[0].formatted_address
 	let lat = parseFloat(data.results[0].geometry.location.lat);
 	let lng = parseFloat(data.results[0].geometry.location.lng);
-
+	
 	findSurroundingVenues(lat, lng, generateSearchResults); 
 	
-	let map = initMap(lat, lng);
+	let map = initMapAfterCall(lat, lng);
 
 	setTimeout(()=>{
 		populateMapWithMarkers(map)
@@ -203,14 +236,13 @@ function handleSubmit(){
 		const submitButton = $('.submit-button')
 
 		getCityFromAPI(citySearch, generateMap); 
-
 		let searchResultsDisplay = $('.js-search-header')
 
 		searchResultsDisplay.html(`Search Results for ${citySearch}`)
 
 		searchForm.removeClass('center-map').addClass('above-map')
 
-
+		setTimeout(() => {getVenueDetails(SESSION_ARRAY[0].place_id)}, 1000);
 
 		queryTarget.val(''); 
 	});
