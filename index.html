@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<title>Boba App</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="float-grid.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
@@ -10,18 +11,24 @@
 </head>
 <body>
 
-<nav>
-	<h1>Boba App</h1>
+<nav class="container">
+	<header class="col-3">
+		<h1>Boba App</h1>
+	</header>
+			<form class="js-search-form search-form">
+			<!-- <label for="location-search">Enter A City</label> -->
+			<input type="text" name="search" id="location-search" placeholder="Enter a City">
+			<button type="submit" class="js-submit-button">Find Me Boba!</button>
 </nav>
 
 <main>
-			<div class="form">
+<!-- 	<div class="form">
 		<form class="js-search-form search-form nav-search">
-			<!-- <label for="location-search">Enter A City</label> -->
+			<label for="location-search">Enter A City</label>
 			<input type="text" name="search" id="location-search" placeholder="Enter a City">
 			<button type="submit" class="js-submit-button">Get Me Boba!</button>
 		</form>
-	</div>
+	</div> -->
 
 	<section>
 		<div class="container">
@@ -29,7 +36,7 @@
 			<div id="display-map">
 				
 			</div>
-			<div class="venue-focus col-5 js-venue-focus">
+			<div class="venue-focus col-4 js-venue-focus">
 
 			</div>
 		</div>

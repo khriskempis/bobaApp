@@ -63,23 +63,38 @@ function createAddress(formatted_address){
 
 function generateShortReview(text){
 	let textArray = text.split(' ')
-	let shortReview = [];
+	let shortReview = '';
+	// let i = 0
+	// while (i < 25){
+	// 	shortReview += textArray[i] + ' '
+	// 	i++
+	// 	if (!textArray[i]){
+	// 		break
+	// 	}
+	// }
 	for(i=0; i < 25; i++){
-		textArray
+		shortReview+= textArray[i] + ' '
+		if (!textArray[i]){
+			break
+		}
 	}
+	if (shortReview.length > 40){
+		shortReview+= '...'
+	}
+	return shortReview
 }
 
 function renderResultFocus(data){
 	let venueFocus = $('.js-venue-focus')
 	let htmlString = `<h2><a href="${data.result.website}" target="_blank">${data.result.name}</a></h2>
-				<p>
+				<p class="venue-content">
 					<span class="address">${createAddress(data.result.formatted_address)}</span><br>
 					<span class="rating">${data.result.rating}</span>
 					<span class="phone-number">${data.result.formatted_phone_number}</span><br>
 					<span class="food-service">${(data.result.types).find(item => item === "restaurant") ? '<span class="food">Serves Food</span>' : '<span class="no-food">Doesn\'t Serve Food</span>'}</span><br>
 					<h5>Reviews</h5>
 					<p class="review-description">${generateShortReview(data.result.reviews[0].text)}</p>
-					<p class="review-description">${data.result.reviews[1].text}</p>
+					<p class="review-description">${generateShortReview(data.result.reviews[1].text)}</p>
 					
 				</p>
 	`
@@ -116,7 +131,7 @@ function initMapAfterCall(lat, lng){
 			lng: parseFloat(lng)
 		},
 		zoom: 12
-	})
+	});
 
 	return map
 }
@@ -165,7 +180,7 @@ function createResultObject(item){
 		address: createSimpleAddress(item.formatted_address),
 		place_id: item.place_id,
 		icon: item.icon,
-		openNow: item.opening_hours.open_now ? item.opening_hours.open_now : true,
+		openNow: item.opening_hours.open_now || false ? item.opening_hours.open_now : true,
 		// photo: getphoto(item.photos[0].photo_reference),
 		lat: item.geometry.location.lat,
 		lng: item.geometry.location.lng
@@ -177,8 +192,8 @@ function generateResultsHtml(array){
 	let resultsHtml = array.map(item => {
 		return htmlString = `<div class="venue-card col-3">
 					<h3><img id="place-icon" src="${item.icon}" height="16" width="16"> ${item.name}</h3>
-					<p>Rating: ${item.rating}</p>
-					<p>${item.address}</p>
+					<p class="rating">Rating: ${item.rating}</p>
+					<p class='address'>${item.address}</p>
 					<p>${item.openNow ? 'Open Now' : 'Closed'}</p>
 				</div>`
 	});
@@ -187,7 +202,10 @@ function generateResultsHtml(array){
 
 function generateSearchResults(data){
 		SESSION_ARRAY = []
-		const results = data.results.map(item =>{
+		const results = data.results.map( (item, i) =>{
+			if( item.name === 'Prinkipia Tea House'){
+			return ' '
+			}
 		return createResultObject(item);
 	})	
 		for(i = 0; i < 8; i++){
@@ -208,9 +226,13 @@ function generateMap(data){
 	
 	let map = initMapAfterCall(lat, lng);
 
-	setTimeout(()=>{
-		populateMapWithMarkers(map)
-	}, 800);
+	if (!SESSION_ARRAY){
+		getCityFromAPI('Los Angeles', generateMap)
+	} else {
+			setTimeout(()=>{
+				populateMapWithMarkers(map)
+		}, 800);
+	}
 };
 
 
@@ -240,9 +262,10 @@ function handleSubmit(){
 
 		searchResultsDisplay.html(`Search Results for ${citySearch}`)
 
-		searchForm.removeClass('center-map').addClass('above-map')
+		// searchForm.removeClass('center-map')
+		// 	.addClass('above-map')
 
-		setTimeout(() => {getVenueDetails(SESSION_ARRAY[0].place_id)}, 1000);
+		setTimeout(() => {getVenueDetails(SESSION_ARRAY[1].place_id)}, 1000);
 
 		queryTarget.val(''); 
 	});

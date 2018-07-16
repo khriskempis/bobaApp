@@ -3,13 +3,13 @@
 }
 
 #display-map {
-	width: 60%;
+	width: 100%;
 	float: left;
 	margin: 10px;
 }
 
 .container {
-	max-width: 1500px;
+	max-width: 1000px;
 	padding: 0 20px;
 	margin: 0 auto;
 }
@@ -24,10 +24,8 @@
 	clear: both;
 }
 
-.venue-focus {
-
-}
-
+h1,
+.search-form,
 .venue-card, 
 .venue-focus {
 	float: left;
@@ -36,16 +34,43 @@
 	margin: 10px;
 }
 
-.col-3, .col-5 {
+header.col-4{
+	width: 60.33%;
+}
+
+.venue-focus{
 	width: 100%;
 }
 
-@media only screen and (min-width: 640px) {
+.search-form{
+	width: 94%;
+}
+
+.col-3, 
+.col-5 {
+	width: 100%;
+}
+
+@media only screen and (min-width: 639px) {
 	.col-3 {
 		width: 22.5%;
 	}
 
+	.col-4 {
+		width: 33.33%;
+	}	
+
 	.col-5 {
-		width: 36%;
+		width: 41.66%;
+	}
+
+	.search-form {
+		width: 55.33%;
+	}
+
+	#display-map {
+		width: 60%;
+		float: left;
+		margin: 10px;
 	}
 }

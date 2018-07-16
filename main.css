@@ -8,14 +8,18 @@ body {
 
 nav {
 	background-color: #fbafaf;
-	height: 60px;
-	padding: 10px; 
+	height: 80px;
+	margin-bottom: 20px
 }
 
-nav h1 {
-	margin: 0;
-	display: inline;
+nav header h1 {
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 10px;
+	padding-top: 8px;
+	padding-left: 10px;
 }
+
 
 a {
 	text-decoration: none;
@@ -25,44 +29,37 @@ a {
 .search-form {
 	display: inline;
 	text-align: center;
-	width: 500px;
-	position: relative;
 	margin: 0;
 }
 
-.above-map {
-	right: -240px;
-}
-
-.center-map {
-	bottom: -200px;
-	right: -800px;
-	z-index: 1; 
-}
-
-.nav-search {
-	right: -300px;
-	top: -50px;
-}
 
 .search-form label {
 	font-size: 20px;
 }
 
 input {
-/*	border-bottom: 4px solid #cdd5e0;
-*/	font-size: 20px;
+	font-size: 20px;
 	margin: 0 auto;
 	display: inline-block;
 	height: 30px;
-	width: 250px; 
-	background-color: #f5eee6 !important;
+	background-color: #f5eee6;
+	margin-top: 20px;
+}
+
+button {
+	font-size: 15px;
+	height: 30px;
+	margin: 5px;
+	margin-bottom: 5px;
+	vertical-align: 11px;
+	border: 1px solid #87dfd6;
+	background-color: #87dfd6;
+	border-radius: 110px;
 }
 
 
 #display-map {
 	height: 400px;
-	width: 60%;
 }
 
 h3, p {
@@ -73,6 +70,20 @@ h3, p {
 
 
 /* === VENUE INFO === */
+
+h2,
+.address {
+	font-size: 20px;
+}
+
+.address {
+	font-size: 14px;
+}
+
+.venue-content {
+	margin-top: -24px;
+}
+
 
 .venue-card, 
 .venue-focus {
@@ -88,7 +99,8 @@ h3, p {
 
 
 .venue-focus {
-	height: 400px;
+	font-size: 20px;
+	height: 300px;
 	background-color: #99e1e5;
 }
 
@@ -97,7 +109,7 @@ h3, p {
 }
 
 h5 {
-	margin: 4px 0 1px;
+	margin: -7px 0;
 }
 
 .phone-number,
@@ -113,3 +125,32 @@ h5 {
 .no-food {
 	color: purple;
 }
+
+@media only screen and (min-width: 640px) and (max-width: 759px) { 
+
+}
+
+@media only screen and (min-width: 640px){
+	.venue-focus {
+		font-size: 20px;
+		height: 400px;
+	}
+
+	button {
+		width: 40%;
+		vertical-align: 2px
+	}
+
+	h2 {
+		font-size: 25px;
+	}
+
+	.address {
+		font-size: 16px;
+	}
+
+}
+
+
+}
+
