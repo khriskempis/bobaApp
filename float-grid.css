@@ -5,7 +5,7 @@
 #display-map {
 	width: 100%;
 	float: left;
-	margin: 10px;
+	margin-top: 10px;
 }
 
 .container {
@@ -31,7 +31,7 @@ h1,
 	float: left;
 	padding-left: 1.04166666%;
   padding-right: 1.04166666%;
-	margin: 10px;
+	margin-top: 10px;
 }
 
 header.col-4{

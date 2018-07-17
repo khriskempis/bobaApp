@@ -56,31 +56,24 @@ function populateMapWithMarkers(map){
 
 function createAddress(formatted_address){
 	let addressArray = formatted_address.split(',')
-	let newAddress = `<span>${addressArray[0]} ${addressArray[1]}</span><br>
-										<span> ${addressArray[2]} ${addressArray[3]}</span`
+	let newAddress = `<span>${addressArray[0]} ${addressArray[1]}</span>`
+			
 	return newAddress
 }
 
 function generateShortReview(text){
 	let textArray = text.split(' ')
 	let shortReview = '';
-	// let i = 0
-	// while (i < 25){
-	// 	shortReview += textArray[i] + ' '
-	// 	i++
-	// 	if (!textArray[i]){
-	// 		break
-	// 	}
-	// }
+
 	for(i=0; i < 25; i++){
 		shortReview+= textArray[i] + ' '
 		if (!textArray[i]){
 			break
+		} else if (shortReview[i] === undefined || shortReview.length > 20){
+			shortReview[i] = '...'
 		}
 	}
-	if (shortReview.length > 40){
-		shortReview+= '...'
-	}
+	shortReview +='...'
 	return shortReview
 }
 
@@ -94,8 +87,7 @@ function renderResultFocus(data){
 					<span class="food-service">${(data.result.types).find(item => item === "restaurant") ? '<span class="food">Serves Food</span>' : '<span class="no-food">Doesn\'t Serve Food</span>'}</span><br>
 					<h5>Reviews</h5>
 					<p class="review-description">${generateShortReview(data.result.reviews[0].text)}</p>
-					<p class="review-description">${generateShortReview(data.result.reviews[1].text)}</p>
-					
+					<p class="review-description">${generateShortReview(data.result.reviews[1].text)}</p>	
 				</p>
 	`
 	$(venueFocus).html(htmlString)
@@ -149,24 +141,6 @@ function findSurroundingVenues(lat, lng, callback){
 		})
 };
 
-// function renderImageSrc(data){
-// 	let imgElement = $('.js-img-focus')
-// 	console.log('made it')
-// }
-
-// function getphoto(photo_reference){
-// 	const GOOGLE_PHOTO_REFERENCE = 'https://maps.googleapis.com/maps/api/place/photo'
-// 	let query = {
-// 		key: 'AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0',
-// 		photo_reference: `${photo_reference}`,
-// 		maxwidth: 400
-// 	}
-
-// 	$.getJSON(GOOGLE_PHOTO_REFERENCE, query, renderImageSrc)
-
-	
-// };
-
 function createSimpleAddress(formatted_address){
 	let simpleAddress = formatted_address.split(',')
 	return simpleAddress[0]
@@ -180,8 +154,7 @@ function createResultObject(item){
 		address: createSimpleAddress(item.formatted_address),
 		place_id: item.place_id,
 		icon: item.icon,
-		openNow: item.opening_hours.open_now || false ? item.opening_hours.open_now : true,
-		// photo: getphoto(item.photos[0].photo_reference),
+		openNow: item.opening_hours.open_now,
 		lat: item.geometry.location.lat,
 		lng: item.geometry.location.lng
 	}
@@ -191,7 +164,7 @@ function createResultObject(item){
 function generateResultsHtml(array){
 	let resultsHtml = array.map(item => {
 		return htmlString = `<div class="venue-card col-3">
-					<h3><img id="place-icon" src="${item.icon}" height="16" width="16"> ${item.name}</h3>
+					<h3 class="title"><img id="place-icon" src="${item.icon}" height="16" width="16"> ${item.name}</h3>
 					<p class="rating">Rating: ${item.rating}</p>
 					<p class='address'>${item.address}</p>
 					<p>${item.openNow ? 'Open Now' : 'Closed'}</p>
@@ -246,6 +219,15 @@ function getCityFromAPI(searchItem, callback ){
 
 // CLICK EVENTS 
 
+function handleVenueCardClicked(){
+	let venueCard = $('.js-search-results')
+
+	$(venueCard).on('click', '.venue-card', function(event){
+		event.stopPropagation()
+		console.log($(this).closest('.title').html())
+	})
+}
+
 function handleSubmit(){
 	const searchForm = $('.js-search-form')
 
@@ -271,5 +253,10 @@ function handleSubmit(){
 	});
 }
 
+function init(){
+	$(handleVenueCardClicked())
+	$(handleSubmit())
+}
 
-$(handleSubmit())
+
+$(init())
