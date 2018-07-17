@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<title>Boba App</title>
-	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<meta name="viewport" content="width=device-width"/>
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="float-grid.css">
 	<link rel="stylesheet" type="text/css" href="main.css">
@@ -11,19 +11,19 @@
 </head>
 <body>
 
-<nav class="container">
-	<header class="col-3">
+<nav role="navigation" class="container">
+	<header role="banner" class="col-3">
 		<h1>Boba App</h1>
 	</header>
-			<form class="js-search-form search-form">
+			<form role="form" class="js-search-form search-form">
 			<!-- <label for="location-search">Enter A City</label> -->
-			<input type="text" name="search" id="location-search" placeholder="Enter a City">
+			<input type="text" name="search" id="location-search" placeholder="Enter a City" required>
 			<button type="submit" class="js-submit-button">Find Me Boba!</button>
 </nav>
 
-<main>
+<main role="main" aria-live="assertive">
 
-	<section>
+	<section role="region">
 		<div class="container">
 
 			<div id="display-map">
@@ -33,6 +33,8 @@
 
 			</div>
 		</div>
+	</section>
+	<section role="contentinfo">
 
 		<h2 class="js-search-header search-header"></h2>
 		<div class="js-search-results search-results container">
