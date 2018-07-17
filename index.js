@@ -135,7 +135,7 @@ function initMapAfterCall(lat, lng){
 function displayError(err){
 	let venueFocus = $('.js-venue-focus')
 
-	let htmlString = 'Please Try Again..'
+	let htmlString = '<span>Please Try Again..</span><br><span>Make sure CORS is enabled</span>'
 
 	venueFocus.html(htmlString)
 }
@@ -215,11 +215,12 @@ function generateMap(data){
 
 // initializes map after the geolocation coordinates are found
 	let map = initMapAfterCall(lat, lng);
-
 // if SESSION ARRAY is not populated, display boba around default city Los Angeles
-	if (SESSION_ARRAY.length === 0){
-		getCityFromAPI('Los Angeles', generateMap)
-	} else {
+		if (SESSION_ARRAY.length === 0){
+			displayError();
+			getCityFromAPI('Los Angeles', generateMap)
+		}
+	 else {
 // otherwise wait till its populated then display markers on map
 			setTimeout(()=>{
 				populateMapWithMarkers(map)
