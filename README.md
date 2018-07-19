@@ -10,12 +10,12 @@ If you experience problems please make sure your browser supports CORS.</em>
 The Boba App will serve all of your milk tea and boba cravings! 
 Simply enter a city and a helpful map will populate with different venues that serve milk tea and boba surrounding the selected city. <br>
 
-<img src="./BobaAppHomePage.png"><br>
+<img src="./img/BobaAppHomePage.png"><br>
 
 You can click on any of the markers and a detailed list of information will be displayed in the right hand section. 
 Details such as address, rating, phone number, and some sample reviews will be displayed for your conveniece.<br>
 
-<img src="./BobaAppSearch.png"><br>
+<img src="./img/BobaAppSearch.png"><br>
 
 Also a list of your search results will be displayed below the map so that you can have a quick overview of the different milk tea and boba places in the city. 
 
