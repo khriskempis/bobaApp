@@ -1,6 +1,8 @@
 <h1>Boba App</h1>
 
-<a href="https://khriskempis.github.io/bobaApp/">Check out Website</a>
+<a target="_blank" href="https://khriskempis.github.io/bobaApp/">Check out Website</a>
+
+<em>This application requires CORS to be enabled. If you experience problems please make sure your browser supports CORS</em>
 
 The Boba App will serve all of your milk tea and boba cravings! Simply enter a city and the helpul map will populate with different venues that serve milk tea and boba surrounding the selected city. 
 <img src="./BobaAppHomePage.png"><br>
