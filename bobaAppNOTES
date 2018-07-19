@@ -1,3 +1,5 @@
+Help users find Boba in the city they search using google maps api and google places api
+
 // USER STORIES 
 
 user sees a map in the background with a search field in the center asking for a city. 
@@ -9,7 +11,28 @@ When selecting a specific dot indicating a venue to search. a tooltip will show 
 
 There is also a small button for more info and when selected, more information will appear on the left hand side which includes the address store hours rating directions, along with an over view of the menu along with popular milk tea drinks. will also show if the place serves food or not and either has a place to sit and relax or is too small to accomodate alot of people. 
 
+// User feedback
 
+sometimes the map wouldn't populate with markers because of an undefined property returning.
+user wants click events on cards so that when clicked they update the right hand desciption element with more infromation 
+infowindow's should have hover effects so that when hovered over rather than clicked will open them and display info of that marker. 
+sometimes the map wouldn't populate with markers because the geolocation would take longer, need to chain ajax calls somehow. 
+
+
+
+// Found Bug
+
+console.log array index where i was getting an error. I iterated through the array and initally console.logge the indexes of all the arrays until i found the index in which the error was occurring. i then confirmed the error by console.logging the next index and it wouldn't show up because the error stopped the iteration one index before it. I then searched through Postman to find that one venue did indedd not have am open_now boolean value. 
+
+//Tempoary fix
+
+simply added an if statement to check if index was 11 becaause thats where I was getting an error and returned an empty string so that the rest of the iteration can continue. works only because there are only 8 tea places being displayed. Will become problem if you were to add a feature to load more/next page. 
+
+
+// CSS media quieres 
+
+when trying to make website responsive must include meta tag
+<meta name="viewport" content="width=device-width, user-scalable=no" />
 
 
 // BobaGuru keys 
@@ -32,7 +55,7 @@ const GOOGLE_PLACES_KEY =
 AIzaSyBfe3xMihX3q9--BLl_0uWnA5jCVPhcFg0
 
 LOS ANGELES latLng =
-34.03508,-118.3695769
+34.0522342 -118.2436849
 
 
 // HTML
